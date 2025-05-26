@@ -1,0 +1,258 @@
+<span class="hljs-keyword">IMPORT</span> prelude
+
+
+<span class="hljs-title">§ `The restaurant bill, please`</span>
+
+<span class="hljs-keyword">DECLARE</span> Actor <span class="hljs-keyword">IS</span> <span class="hljs-keyword">ONE</span> <span class="hljs-keyword">OF</span> Buyer<span class="hljs-punctuation">,</span> Seller
+
+<span class="hljs-comment">// we keep track of things using some sort of wallet</span>
+
+<span class="hljs-keyword">DECLARE</span> <span class="hljs-variable">`Symbol Table`</span>
+    <span class="hljs-keyword">HAS</span> total     <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> NUMBER
+        paid      <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> NUMBER
+
+<span class="hljs-comment">// the seller delivers the goods</span>
+
+<span class="hljs-keyword">DECLARE</span> Action <span class="hljs-keyword">IS</span> <span class="hljs-keyword">ONE</span> <span class="hljs-keyword">OF</span>
+  deliver  <span class="hljs-keyword">HAS</span> itemName <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> STRING
+                quantity <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> NUMBER
+  pay      <span class="hljs-keyword">HAS</span> amount <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> NUMBER
+
+<span class="hljs-comment">// the buyer makes four payments</span>
+
+<span class="hljs-keyword">GIVEN</span> symtab <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span>  <span class="hljs-variable">`Symbol Table`</span>
+<span class="hljs-keyword">GIVETH</span> CONTRACT Actor Action
+<span class="hljs-variable">`Initial Sale`</span> <span class="hljs-keyword">MEANS</span>
+  <span class="hljs-keyword">PARTY</span> Seller
+  <span class="hljs-keyword">MUST</span> deliver <span class="hljs-string">"apple"</span> <span class="hljs-number">1</span>
+  <span class="hljs-keyword">WITHIN</span> <span class="hljs-number">10</span>
+  <span class="hljs-keyword">HENCE</span> <span class="hljs-variable">`Pay Until Zero`</span> <span class="hljs-keyword">OF</span>
+          <span class="hljs-variable">`Symbol Table`</span>
+            <span class="hljs-keyword">WITH</span>
+            total <span class="hljs-keyword">IS</span> <span class="hljs-number">200</span>
+            paid  <span class="hljs-keyword">IS</span>   <span class="hljs-number">0</span>
+
+<span class="hljs-keyword">GIVEN</span> symtab <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span>  <span class="hljs-variable">`Symbol Table`</span>
+<span class="hljs-variable">`Pay Until Zero`</span> <span class="hljs-keyword">MEANS</span>
+  <span class="hljs-keyword">IF</span> symtab<span class="hljs-property">'s</span> total <span class="hljs-symbol">AT LEAST</span> symtab<span class="hljs-property">'s</span> paid
+  <span class="hljs-keyword">THEN</span> <span class="hljs-literal">FULFILLED</span>
+  <span class="hljs-keyword">ELSE</span>
+    <span class="hljs-keyword">PARTY</span> Buyer
+      <span class="hljs-keyword">MUST</span> pay <span class="hljs-number">50</span>
+    <span class="hljs-keyword">WITHIN</span> <span class="hljs-number">30</span>
+    <span class="hljs-keyword">HENCE</span> <span class="hljs-variable">`Pay Until Zero`</span> <span class="hljs-keyword">OF</span>
+            <span class="hljs-variable">`Symbol Table`</span>
+              <span class="hljs-keyword">WITH</span>
+              total <span class="hljs-keyword">IS</span> symtab<span class="hljs-property">'s</span> total
+              paid  <span class="hljs-keyword">IS</span> symtab<span class="hljs-property">'s</span> paid <span class="hljs-operator">PLUS</span> <span class="hljs-number">50</span>
+
+
+<span class="hljs-formula">#CONTRACT</span> <span class="hljs-variable">`Initial Sale`</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">`Symbol Table`</span> <span class="hljs-keyword">OF</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span> <span class="hljs-number">0</span><span class="hljs-punctuation">)</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">1</span> <span class="hljs-keyword">WITH</span>
+  <span class="hljs-keyword">PARTY</span> Seller <span class="hljs-keyword">DOES</span> deliver <span class="hljs-string">"apple"</span> <span class="hljs-number">1</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">2</span>
+  <span class="hljs-keyword">PARTY</span> Buyer  <span class="hljs-keyword">DOES</span> pay <span class="hljs-number">50</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">13</span>
+  <span class="hljs-keyword">PARTY</span> Buyer  <span class="hljs-keyword">DOES</span> pay <span class="hljs-number">50</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">23</span>
+  <span class="hljs-keyword">PARTY</span> Buyer  <span class="hljs-keyword">DOES</span> pay <span class="hljs-number">50</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">33</span>
+  <span class="hljs-keyword">PARTY</span> Buyer  <span class="hljs-keyword">DOES</span> pay <span class="hljs-number">50</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">43</span>
+
+
+<span class="hljs-formula">#CONTRACT</span> <span class="hljs-variable">`Initial Sale`</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">`Symbol Table`</span> <span class="hljs-keyword">OF</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span> <span class="hljs-number">0</span><span class="hljs-punctuation">)</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">1</span> <span class="hljs-keyword">WITH</span>
+  <span class="hljs-keyword">PARTY</span> Seller <span class="hljs-keyword">DOES</span> deliver <span class="hljs-string">"apple"</span> <span class="hljs-number">1</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">2</span>
+  <span class="hljs-keyword">PARTY</span> Buyer  <span class="hljs-keyword">DOES</span> pay <span class="hljs-number">100</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">13</span>
+  <span class="hljs-keyword">PARTY</span> Buyer  <span class="hljs-keyword">DOES</span> pay <span class="hljs-number">100</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">23</span>
+
+
+
+<span class="hljs-title">§ `An dubious beer investment document`</span>
+
+<span class="hljs-keyword">DECLARE</span> Actor <span class="hljs-keyword">IS</span> <span class="hljs-keyword">ONE</span> <span class="hljs-keyword">OF</span>
+  NaturalPerson          <span class="hljs-keyword">HAS</span> name <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> STRING
+  Company                ^   ^    ^  ^ ^
+
+<span class="hljs-keyword">DECLARE</span> Action <span class="hljs-keyword">IS</span> <span class="hljs-keyword">ONE</span> <span class="hljs-keyword">OF</span>
+  deliver  <span class="hljs-keyword">HAS</span> itemName   <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span>  STRING
+                quantity   <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span>  NUMBER
+  pay      <span class="hljs-keyword">HAS</span> amount     <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span>  NUMBER
+  issue    <span class="hljs-keyword">HAS</span> instrument <span class="hljs-keyword">IS</span> <span class="hljs-keyword">AN</span> Instrument
+
+<span class="hljs-keyword">DECLARE</span> Instrument <span class="hljs-keyword">IS</span> <span class="hljs-keyword">ONE</span> <span class="hljs-keyword">OF</span>
+  shares  <span class="hljs-keyword">HAS</span> amount <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> NUMBER
+  debt    ^   ^      ^  ^ ^
+
+<span class="hljs-keyword">DECLARE</span> <span class="hljs-variable">`Symbol Table`</span>
+    <span class="hljs-keyword">HAS</span> bill      <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> NUMBER
+        beers     <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> NUMBER
+        potatoes  <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> NUMBER
+        log       <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> <span class="hljs-keyword">LIST</span> <span class="hljs-keyword">OF</span> STRING
+
+unicorn <span class="hljs-keyword">MEANS</span> Company <span class="hljs-keyword">OF</span> <span class="hljs-string">"Deca Unicorn, Inc."</span>
+
+johnDoe <span class="hljs-keyword">MEANS</span> NaturalPerson <span class="hljs-keyword">OF</span> <span class="hljs-string">"John Doe"</span>
+
+<span class="hljs-keyword">GIVEN</span> investor <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> Actor
+      company  <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> Actor
+      symtab   <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> <span class="hljs-variable">`Symbol Table`</span>
+<span class="hljs-keyword">GIVETH</span> CONTRACT Actor Action
+<span class="hljs-variable">`Series A Financing`</span> <span class="hljs-keyword">MEANS</span>
+  <span class="hljs-keyword">PARTY</span>   investor
+  <span class="hljs-keyword">MUST</span>    pay <span class="hljs-number">200</span>
+  <span class="hljs-keyword">WITHIN</span>  <span class="hljs-number">10</span>
+  <span class="hljs-keyword">HENCE</span>   <span class="hljs-variable">`Series A Issue`</span> investor company newState
+  <span class="hljs-keyword">WHERE</span>
+    newState <span class="hljs-keyword">MEANS</span> <span class="hljs-variable">`Symbol Table`</span>
+      <span class="hljs-keyword">WITH</span>
+        bill      <span class="hljs-keyword">IS</span> symtab<span class="hljs-property">'s</span> bill
+        beers     <span class="hljs-keyword">IS</span> symtab<span class="hljs-property">'s</span> beers <span class="hljs-operator">+</span> <span class="hljs-number">2</span>
+        potatoes  <span class="hljs-keyword">IS</span> symtab<span class="hljs-property">'s</span> potatoes <span class="hljs-operator">+</span> <span class="hljs-number">1</span>
+        log       <span class="hljs-keyword">IS</span> <span class="hljs-string">"investor paid $200"</span> <span class="hljs-keyword">FOLLOWED</span> <span class="hljs-keyword">BY</span> symtab<span class="hljs-property">'s</span> log
+
+<span class="hljs-keyword">GIVEN</span> investor <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> Actor
+      company  <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> Actor
+      symtab   <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> <span class="hljs-variable">`Symbol Table`</span>
+<span class="hljs-keyword">GIVETH</span> CONTRACT Actor Action
+<span class="hljs-variable">`Series A Issue`</span> <span class="hljs-keyword">MEANS</span>
+  <span class="hljs-keyword">PARTY</span>   company
+  <span class="hljs-keyword">MUST</span>    issue <span class="hljs-punctuation">(</span>shares <span class="hljs-number">300</span><span class="hljs-punctuation">)</span>
+  <span class="hljs-keyword">WITHIN</span>  <span class="hljs-number">5</span>
+  <span class="hljs-keyword">HENCE</span>   returnFulfilled <span class="hljs-keyword">OF</span>
+            <span class="hljs-variable">`Symbol Table`</span>
+              <span class="hljs-keyword">WITH</span>
+                bill      <span class="hljs-keyword">IS</span>      symtab<span class="hljs-property">'s</span> beers <span class="hljs-operator">*</span> <span class="hljs-number">20</span>
+                              <span class="hljs-operator">PLUS</span> symtab<span class="hljs-property">'s</span> potatoes <span class="hljs-operator">+</span> <span class="hljs-number">4</span>
+                beers     <span class="hljs-keyword">IS</span> <span class="hljs-number">0</span>
+                potatoes  <span class="hljs-keyword">IS</span> <span class="hljs-number">0</span>
+                log       <span class="hljs-keyword">IS</span> <span class="hljs-string">"calculated final bill"</span> <span class="hljs-keyword">FOLLOWED</span> <span class="hljs-keyword">BY</span> symtab<span class="hljs-property">'s</span> log
+
+
+<span class="hljs-keyword">GIVEN</span> symtab   <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> <span class="hljs-variable">`Symbol Table`</span>
+<span class="hljs-keyword">GIVETH</span> CONTRACT Actor Action
+<span class="hljs-variable">`returnFulfilled`</span> <span class="hljs-keyword">MEANS</span> <span class="hljs-literal">FULFILLED</span>
+
+
+<span class="hljs-keyword">GIVETH</span> <span class="hljs-keyword">A</span> <span class="hljs-variable">`Symbol Table`</span>
+startState <span class="hljs-keyword">MEANS</span>
+  <span class="hljs-variable">`Symbol Table`</span> <span class="hljs-keyword">WITH</span>
+    bill      <span class="hljs-keyword">IS</span> <span class="hljs-number">0</span>
+    beers     <span class="hljs-keyword">IS</span> <span class="hljs-number">0</span>
+    potatoes  <span class="hljs-keyword">IS</span> <span class="hljs-number">0</span>
+    log       <span class="hljs-keyword">IS</span> <span class="hljs-punctuation">(</span><span class="hljs-keyword">LIST</span> <span class="hljs-string">""</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"obasdf"</span><span class="hljs-punctuation">)</span>
+
+<span class="hljs-formula">#CONTRACT</span> <span class="hljs-variable">`Series A Financing`</span> johnDoe unicorn startState <span class="hljs-keyword">AT</span> <span class="hljs-number">1</span> <span class="hljs-keyword">WITH</span>
+  <span class="hljs-keyword">PARTY</span> johnDoe <span class="hljs-keyword">DOES</span> pay <span class="hljs-number">200</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">2</span>
+
+<span class="hljs-formula">#CONTRACT</span> <span class="hljs-variable">`Series A Financing`</span> johnDoe unicorn startState <span class="hljs-keyword">AT</span> <span class="hljs-number">1</span> <span class="hljs-keyword">WITH</span>
+  <span class="hljs-keyword">PARTY</span> johnDoe <span class="hljs-keyword">DOES</span> pay <span class="hljs-number">200</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">2</span>
+  <span class="hljs-keyword">PARTY</span> unicorn <span class="hljs-keyword">DOES</span> issue <span class="hljs-punctuation">(</span>shares <span class="hljs-number">300</span><span class="hljs-punctuation">)</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">3</span>
+
+<span class="hljs-comment">-- If the company issued the equity, but late, the contract is breached.</span>
+<span class="hljs-formula">#CONTRACT</span> <span class="hljs-variable">`Series A Financing`</span> johnDoe unicorn startState <span class="hljs-keyword">AT</span> <span class="hljs-number">1</span> <span class="hljs-keyword">WITH</span>
+  <span class="hljs-keyword">PARTY</span> johnDoe <span class="hljs-keyword">DOES</span> pay <span class="hljs-number">200</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">2</span>
+  <span class="hljs-keyword">PARTY</span> unicorn <span class="hljs-keyword">DOES</span> issue <span class="hljs-punctuation">(</span>shares <span class="hljs-number">300</span><span class="hljs-punctuation">)</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">13</span>
+
+
+
+<span class="hljs-formula">#CONTRACT</span> <span class="hljs-variable">`Series A Financing`</span> johnDoe unicorn startState <span class="hljs-keyword">AT</span> <span class="hljs-number">1</span> <span class="hljs-keyword">WITH</span>
+  <span class="hljs-keyword">PARTY</span> johnDoe <span class="hljs-keyword">DOES</span> pay <span class="hljs-number">0</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">20</span>
+
+
+
+
+
+<span class="hljs-title">§ `A hypothetical British Nationality Act`</span>
+
+<span class="hljs-comment">-- definitions of Place, Date, and Person belong in a supporting library, but are here for exposition</span>
+<span class="hljs-keyword">DECLARE</span> Date <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> STRING <span class="hljs-comment">-- "YYYY-MM-DD"</span>
+<span class="hljs-keyword">DECLARE</span> Place <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> STRING
+<span class="hljs-keyword">DECLARE</span> Year <span class="hljs-keyword">IS</span> <span class="hljs-number">2025</span>
+<span class="hljs-keyword">DECLARE</span> Yes <span class="hljs-keyword">IS</span> <span class="hljs-literal">TRUE</span>
+
+BNA_commencement    <span class="hljs-keyword">MEANS</span> <span class="hljs-string">"1983-01-01"</span> <span class="hljs-comment">-- of the main British Nationality Act 1981</span>
+<span class="hljs-doctag">@ref source: section 1 of British Nationality Act 1981 c.61 @ 2021-07-01</span>
+<span class="hljs-doctag">@ref url: <span class="hljs-link">https://www.legislation.gov.uk/ukpga/1981/61/section/1</span></span>
+
+<span class="hljs-variable">`appointed day`</span> <span class="hljs-keyword">MEANS</span> <span class="hljs-string">"2002-02-21"</span> <span class="hljs-comment">-- from various acts that subsequently updated the British Nationality Act 1981</span>
+<span class="hljs-doctag">@ref source: section 1 of British Overseas Territories Act 2002 c.8 @ 2002-02-26</span>
+<span class="hljs-doctag">@ref url: <span class="hljs-link">https://www.legislation.gov.uk/ukpga/2002/8/section/1</span></span>
+
+<span class="hljs-keyword">GIVEN</span> p <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> Place
+<span class="hljs-keyword">GIVETH</span> <span class="hljs-keyword">A</span> BOOLEAN
+<span class="hljs-doctag">@ref url: <span class="hljs-link">https://www.legislation.gov.uk/ukpga/1981/61/schedule/6</span></span>
+<span class="hljs-variable">`is British Overseas Territory`</span> <span class="hljs-keyword">MEANS</span>
+      p    <span class="hljs-symbol">=</span> <span class="hljs-string">"Anguilla"</span>
+    <span class="hljs-keyword">OR</span> ^    <span class="hljs-symbol">=</span> <span class="hljs-string">"Bermuda"</span>
+    ^  ^    <span class="hljs-symbol">=</span> <span class="hljs-string">"British Antarctic Territory"</span>
+    ^  ^    <span class="hljs-symbol">=</span> <span class="hljs-string">"British Indian Ocean Territory"</span>
+    ^  ^    <span class="hljs-symbol">=</span> <span class="hljs-string">"Cayman Islands"</span>
+    ^  ^    <span class="hljs-symbol">=</span> <span class="hljs-string">"Falkland Islands"</span>
+    ^  ^    <span class="hljs-symbol">=</span> <span class="hljs-string">"Gibraltar"</span>
+    ^  ^    <span class="hljs-symbol">=</span> <span class="hljs-string">"Montserrat"</span>
+    ^  ^    <span class="hljs-symbol">=</span> <span class="hljs-string">"Pitcairn, Henderson, Ducie and Oeno Islands"</span>
+    ^  ^    <span class="hljs-symbol">=</span> <span class="hljs-string">"St Helena, Ascension and Tristan da Cunha"</span>
+    ^  ^    <span class="hljs-symbol">=</span> <span class="hljs-string">"Sovereign Base Areas of Akrotiri and Dhekelia"</span>
+    ^  ^    <span class="hljs-symbol">=</span> <span class="hljs-string">"South Georgia and the South Sandwich Islands"</span>
+    ^  ^    <span class="hljs-symbol">=</span> <span class="hljs-string">"Turks and Caicos Islands"</span>
+    ^  ^    <span class="hljs-symbol">=</span> <span class="hljs-string">"Virgin Islands"</span>
+
+<span class="hljs-keyword">GIVEN</span> p <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> Place
+<span class="hljs-keyword">GIVETH</span> <span class="hljs-keyword">A</span> BOOLEAN
+<span class="hljs-keyword">DECIDE</span> <span class="hljs-variable">`is a qualifying territory`</span> p <span class="hljs-keyword">IF</span>
+            <span class="hljs-variable">`is British Overseas Territory`</span> p
+    <span class="hljs-keyword">AND</span> <span class="hljs-symbol">NOT</span> p <span class="hljs-symbol">=</span> <span class="hljs-string">"Sovereign Base Areas of Akrotiri and Dhekelia"</span>
+<span class="hljs-doctag">@ref url: <span class="hljs-link">https://www.legislation.gov.uk/ukpga/1981/61/section/50#term-qualifying-territory</span></span>
+
+<span class="hljs-keyword">GIVEN</span> d <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> Date <span class="hljs-comment">-- date of birth</span>
+      c <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> Date <span class="hljs-comment">-- commencement</span>
+<span class="hljs-keyword">GIVETH</span> <span class="hljs-keyword">A</span> BOOLEAN
+<span class="hljs-keyword">DECIDE</span> <span class="hljs-variable">`after`</span> <span class="hljs-keyword">IF</span> d <span class="hljs-symbol">GREATER THAN</span> c
+
+<span class="hljs-comment">-- syntactic sugar for the visualization to read more naturally</span>
+flip a b <span class="hljs-keyword">MEANS</span> b a
+ascertain <span class="hljs-keyword">MEANS</span> flip
+is        ^     ^
+person    ^     ^
+
+
+<span class="hljs-title">§§ `S1 BNA possible redraft form`</span>
+
+<span class="hljs-keyword">GIVEN</span> p_name         <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> STRING
+      p_birthPlace   <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> Place
+      p_birthDate    <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> Date
+      m_settledIn    <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> Place
+      m_knownBritish <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> BOOLEAN
+      f_settledIn    <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> Place
+      f_knownBritish <span class="hljs-keyword">IS</span> <span class="hljs-keyword">A</span> BOOLEAN
+<span class="hljs-keyword">GIVETH</span> <span class="hljs-keyword">A</span> BOOLEAN
+<span class="hljs-keyword">DECIDE</span> <span class="hljs-variable">`is British citizen`</span>
+  <span class="hljs-keyword">IF</span>       <span class="hljs-variable">`p is born in the UK`</span>
+      <span class="hljs-keyword">AND</span>  <span class="hljs-variable">`p is born after commencement`</span>
+      <span class="hljs-keyword">AND</span>       <span class="hljs-variable">`father is settled in the UK`</span> <span class="hljs-keyword">OR</span> <span class="hljs-variable">`father is British citizen`</span>
+            <span class="hljs-keyword">OR</span>  <span class="hljs-variable">`mother is settled in the UK`</span> <span class="hljs-keyword">OR</span> <span class="hljs-variable">`mother is British citizen`</span>
+
+    <span class="hljs-keyword">OR</span>      <span class="hljs-variable">`p is born in a qualifying territory after the appointed day`</span>
+      <span class="hljs-keyword">AND</span>       <span class="hljs-variable">`father is British citizen`</span> <span class="hljs-keyword">OR</span> <span class="hljs-variable">`father is settled in the qualifying territory in which the person is born`</span>
+            <span class="hljs-keyword">OR</span>  <span class="hljs-variable">`mother is British citizen`</span> <span class="hljs-keyword">OR</span> <span class="hljs-variable">`mother is settled in the qualifying territory in which the person is born`</span>
+
+  <span class="hljs-keyword">WHERE</span>
+    <span class="hljs-variable">`p is born in the UK`</span>  <span class="hljs-keyword">MEANS</span> p_birthPlace <span class="hljs-symbol">EQUALS</span> <span class="hljs-string">"UK"</span>
+    <span class="hljs-variable">`p is born after commencement`</span> <span class="hljs-keyword">MEANS</span> <span class="hljs-variable">`after`</span> p_birthDate BNA_commencement
+  
+    <span class="hljs-variable">`father is settled in the UK`</span> <span class="hljs-keyword">MEANS</span> f_settledIn <span class="hljs-symbol">EQUALS</span> <span class="hljs-string">"UK"</span>
+    <span class="hljs-variable">`mother is settled in the UK`</span> <span class="hljs-keyword">MEANS</span> m_settledIn ^      ^
+
+    <span class="hljs-variable">`father is British citizen`</span> <span class="hljs-keyword">MEANS</span> f_knownBritish
+    <span class="hljs-variable">`mother is British citizen`</span> <span class="hljs-keyword">MEANS</span> m_knownBritish
+
+    <span class="hljs-variable">`is born in a qualifying territory`</span> <span class="hljs-keyword">MEANS</span> <span class="hljs-variable">`is a qualifying territory`</span> p_birthPlace
+
+    <span class="hljs-variable">`born after AppointedDay`</span>           <span class="hljs-keyword">MEANS</span> <span class="hljs-variable">`after`</span> p_birthDate <span class="hljs-variable">`appointed day`</span>
+
+    <span class="hljs-variable">`p is born in a qualifying territory after the appointed day`</span> <span class="hljs-keyword">MEANS</span>
+          <span class="hljs-variable">`is born in a qualifying territory`</span>
+      <span class="hljs-keyword">AND</span> <span class="hljs-variable">`born after AppointedDay`</span>
+
+    <span class="hljs-variable">`mother is settled in the qualifying territory in which the person is born`</span> <span class="hljs-keyword">MEANS</span>
+                  <span class="hljs-variable">`p is born in a qualifying territory after the appointed day`</span>
+          <span class="hljs-keyword">AND</span>     m_settledIn <span class="hljs-symbol">EQUALS</span> p_birthPlace
+
+    <span class="hljs-variable">`father is settled in the qualifying territory in which the person is born`</span> <span class="hljs-keyword">MEANS</span>
+                  <span class="hljs-variable">`p is born in a qualifying territory after the appointed day`</span>
+          <span class="hljs-keyword">AND</span>     f_settledIn <span class="hljs-symbol">EQUALS</span> p_birthPlace

@@ -1,0 +1,23 @@
+{
+  "name": "highlightjs-l4",
+  "version": "1.0.0",
+  "description": "L4 - Rules as Code - Legal language - Syntax highlighting plugin for highlight.js",
+  "main": "src/languages/l4.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/legalese/highlightjs-l4.git"
+  },
+  "keywords": [
+    "l4",
+    "legal",
+    "hljs",
+    "highlightjs",
+    "highlight.js"
+  ],
+  "author": "Thomas Gorissen",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/legalese/highlightjs-l4/issues"
+  },
+  "homepage": "https://github.com/legalese/highlightjs-l4#readme"
+}

@@ -1,0 +1,258 @@
+IMPORT prelude
+
+
+§ `The restaurant bill, please`
+
+DECLARE Actor IS ONE OF Buyer, Seller
+
+// we keep track of things using some sort of wallet
+
+DECLARE `Symbol Table`
+    HAS total     IS A NUMBER
+        paid      IS A NUMBER
+
+// the seller delivers the goods
+
+DECLARE Action IS ONE OF
+  deliver  HAS itemName IS A STRING
+                quantity IS A NUMBER
+  pay      HAS amount IS A NUMBER
+
+// the buyer makes four payments
+
+GIVEN symtab IS A  `Symbol Table`
+GIVETH CONTRACT Actor Action
+`Initial Sale` MEANS
+  PARTY Seller
+  MUST deliver "apple" 1
+  WITHIN 10
+  HENCE `Pay Until Zero` OF
+          `Symbol Table`
+            WITH
+            total IS 200
+            paid  IS   0
+
+GIVEN symtab IS A  `Symbol Table`
+`Pay Until Zero` MEANS
+  IF symtab's total AT LEAST symtab's paid
+  THEN FULFILLED
+  ELSE
+    PARTY Buyer
+      MUST pay 50
+    WITHIN 30
+    HENCE `Pay Until Zero` OF
+            `Symbol Table`
+              WITH
+              total IS symtab's total
+              paid  IS symtab's paid PLUS 50
+
+
+#CONTRACT `Initial Sale` (`Symbol Table` OF 0, 0) AT 1 WITH
+  PARTY Seller DOES deliver "apple" 1 AT 2
+  PARTY Buyer  DOES pay 50 AT 13
+  PARTY Buyer  DOES pay 50 AT 23
+  PARTY Buyer  DOES pay 50 AT 33
+  PARTY Buyer  DOES pay 50 AT 43
+
+
+#CONTRACT `Initial Sale` (`Symbol Table` OF 0, 0) AT 1 WITH
+  PARTY Seller DOES deliver "apple" 1 AT 2
+  PARTY Buyer  DOES pay 100 AT 13
+  PARTY Buyer  DOES pay 100 AT 23
+
+
+
+§ `An dubious beer investment document`
+
+DECLARE Actor IS ONE OF
+  NaturalPerson          HAS name IS A STRING
+  Company                ^   ^    ^  ^ ^
+
+DECLARE Action IS ONE OF
+  deliver  HAS itemName   IS A  STRING
+                quantity   IS A  NUMBER
+  pay      HAS amount     IS A  NUMBER
+  issue    HAS instrument IS AN Instrument
+
+DECLARE Instrument IS ONE OF
+  shares  HAS amount IS A NUMBER
+  debt    ^   ^      ^  ^ ^
+
+DECLARE `Symbol Table`
+    HAS bill      IS A NUMBER
+        beers     IS A NUMBER
+        potatoes  IS A NUMBER
+        log       IS A LIST OF STRING
+
+unicorn MEANS Company OF "Deca Unicorn, Inc."
+
+johnDoe MEANS NaturalPerson OF "John Doe"
+
+GIVEN investor IS A Actor
+      company  IS A Actor
+      symtab   IS A `Symbol Table`
+GIVETH CONTRACT Actor Action
+`Series A Financing` MEANS
+  PARTY   investor
+  MUST    pay 200
+  WITHIN  10
+  HENCE   `Series A Issue` investor company newState
+  WHERE
+    newState MEANS `Symbol Table`
+      WITH
+        bill      IS symtab's bill
+        beers     IS symtab's beers + 2
+        potatoes  IS symtab's potatoes + 1
+        log       IS "investor paid $200" FOLLOWED BY symtab's log
+
+GIVEN investor IS A Actor
+      company  IS A Actor
+      symtab   IS A `Symbol Table`
+GIVETH CONTRACT Actor Action
+`Series A Issue` MEANS
+  PARTY   company
+  MUST    issue (shares 300)
+  WITHIN  5
+  HENCE   returnFulfilled OF
+            `Symbol Table`
+              WITH
+                bill      IS      symtab's beers * 20
+                              PLUS symtab's potatoes + 4
+                beers     IS 0
+                potatoes  IS 0
+                log       IS "calculated final bill" FOLLOWED BY symtab's log
+
+
+GIVEN symtab   IS A `Symbol Table`
+GIVETH CONTRACT Actor Action
+`returnFulfilled` MEANS FULFILLED
+
+
+GIVETH A `Symbol Table`
+startState MEANS
+  `Symbol Table` WITH
+    bill      IS 0
+    beers     IS 0
+    potatoes  IS 0
+    log       IS (LIST "", "obasdf")
+
+#CONTRACT `Series A Financing` johnDoe unicorn startState AT 1 WITH
+  PARTY johnDoe DOES pay 200 AT 2
+
+#CONTRACT `Series A Financing` johnDoe unicorn startState AT 1 WITH
+  PARTY johnDoe DOES pay 200 AT 2
+  PARTY unicorn DOES issue (shares 300) AT 3
+
+-- If the company issued the equity, but late, the contract is breached.
+#CONTRACT `Series A Financing` johnDoe unicorn startState AT 1 WITH
+  PARTY johnDoe DOES pay 200 AT 2
+  PARTY unicorn DOES issue (shares 300) AT 13
+
+
+
+#CONTRACT `Series A Financing` johnDoe unicorn startState AT 1 WITH
+  PARTY johnDoe DOES pay 0 AT 20
+
+
+
+
+
+§ `A hypothetical British Nationality Act`
+
+-- definitions of Place, Date, and Person belong in a supporting library, but are here for exposition
+DECLARE Date IS A STRING -- "YYYY-MM-DD"
+DECLARE Place IS A STRING
+DECLARE Year IS 2025
+DECLARE Yes IS TRUE
+
+BNA_commencement    MEANS "1983-01-01" -- of the main British Nationality Act 1981
+@ref source: section 1 of British Nationality Act 1981 c.61 @ 2021-07-01
+@ref url: https://www.legislation.gov.uk/ukpga/1981/61/section/1
+
+`appointed day` MEANS "2002-02-21" -- from various acts that subsequently updated the British Nationality Act 1981
+@ref source: section 1 of British Overseas Territories Act 2002 c.8 @ 2002-02-26
+@ref url: https://www.legislation.gov.uk/ukpga/2002/8/section/1
+
+GIVEN p IS A Place
+GIVETH A BOOLEAN
+@ref url: https://www.legislation.gov.uk/ukpga/1981/61/schedule/6
+`is British Overseas Territory` MEANS
+      p    = "Anguilla"
+    OR ^    = "Bermuda"
+    ^  ^    = "British Antarctic Territory"
+    ^  ^    = "British Indian Ocean Territory"
+    ^  ^    = "Cayman Islands"
+    ^  ^    = "Falkland Islands"
+    ^  ^    = "Gibraltar"
+    ^  ^    = "Montserrat"
+    ^  ^    = "Pitcairn, Henderson, Ducie and Oeno Islands"
+    ^  ^    = "St Helena, Ascension and Tristan da Cunha"
+    ^  ^    = "Sovereign Base Areas of Akrotiri and Dhekelia"
+    ^  ^    = "South Georgia and the South Sandwich Islands"
+    ^  ^    = "Turks and Caicos Islands"
+    ^  ^    = "Virgin Islands"
+
+GIVEN p IS A Place
+GIVETH A BOOLEAN
+DECIDE `is a qualifying territory` p IF
+            `is British Overseas Territory` p
+    AND NOT p = "Sovereign Base Areas of Akrotiri and Dhekelia"
+@ref url: https://www.legislation.gov.uk/ukpga/1981/61/section/50#term-qualifying-territory
+
+GIVEN d IS A Date -- date of birth
+      c IS A Date -- commencement
+GIVETH A BOOLEAN
+DECIDE `after` IF d GREATER THAN c
+
+-- syntactic sugar for the visualization to read more naturally
+flip a b MEANS b a
+ascertain MEANS flip
+is        ^     ^
+person    ^     ^
+
+
+§§ `S1 BNA possible redraft form`
+
+GIVEN p_name         IS A STRING
+      p_birthPlace   IS A Place
+      p_birthDate    IS A Date
+      m_settledIn    IS A Place
+      m_knownBritish IS A BOOLEAN
+      f_settledIn    IS A Place
+      f_knownBritish IS A BOOLEAN
+GIVETH A BOOLEAN
+DECIDE `is British citizen`
+  IF       `p is born in the UK`
+      AND  `p is born after commencement`
+      AND       `father is settled in the UK` OR `father is British citizen`
+            OR  `mother is settled in the UK` OR `mother is British citizen`
+
+    OR      `p is born in a qualifying territory after the appointed day`
+      AND       `father is British citizen` OR `father is settled in the qualifying territory in which the person is born`
+            OR  `mother is British citizen` OR `mother is settled in the qualifying territory in which the person is born`
+
+  WHERE
+    `p is born in the UK`  MEANS p_birthPlace EQUALS "UK"
+    `p is born after commencement` MEANS `after` p_birthDate BNA_commencement
+  
+    `father is settled in the UK` MEANS f_settledIn EQUALS "UK"
+    `mother is settled in the UK` MEANS m_settledIn ^      ^
+
+    `father is British citizen` MEANS f_knownBritish
+    `mother is British citizen` MEANS m_knownBritish
+
+    `is born in a qualifying territory` MEANS `is a qualifying territory` p_birthPlace
+
+    `born after AppointedDay`           MEANS `after` p_birthDate `appointed day`
+
+    `p is born in a qualifying territory after the appointed day` MEANS
+          `is born in a qualifying territory`
+      AND `born after AppointedDay`
+
+    `mother is settled in the qualifying territory in which the person is born` MEANS
+                  `p is born in a qualifying territory after the appointed day`
+          AND     m_settledIn EQUALS p_birthPlace
+
+    `father is settled in the qualifying territory in which the person is born` MEANS
+                  `p is born in a qualifying territory after the appointed day`
+          AND     f_settledIn EQUALS p_birthPlace
