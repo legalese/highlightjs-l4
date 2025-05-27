@@ -57,17 +57,17 @@
   color: #9B9B9B;
 }
 
-.hljs-variable,
-.hljs-template-variable {
-  color: #c994ce;
-}
-
 .hljs-attr,
 .hljs-attribute,
+.hljs-variable,
+.hljs-template-variable {
+  color: #8dc5e4;
+}
+
 .hljs-literal,
 .hljs-built_in,
 .hljs-type {
-  color: #8dc5e4;
+  color: #b474bb;
 }
 
 .hljs-section,
