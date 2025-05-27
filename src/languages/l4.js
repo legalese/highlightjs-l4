@@ -77,7 +77,7 @@ hljs.registerLanguage("l4", function(hljs) {
   };
 
   const OPERATORS = {
-    className: 'operator',
+    className: 'bullet',
     begin: /(?:\+|-|\*|\/|PLUS|MINUS|DIVIDED BY|MODULO|TIMES)/
   };
 
@@ -87,7 +87,7 @@ hljs.registerLanguage("l4", function(hljs) {
   };
 
   const PROPERTY = {
-    className: 'property',
+    className: 'attribute',
     begin: /(?:'s)/
   }
 
