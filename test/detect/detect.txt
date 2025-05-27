@@ -1,0 +1,35 @@
+§ `Get them apples, please`
+
+-- A variaty of L4 rules syntax just for visual pleasure
+@ref url: https://l4.legalese.com
+
+DECLARE Actor IS ONE OF Buyer, Seller
+
+DECLARE `Symbol Table`
+    HAS total     IS A NUMBER
+        paid      IS A NUMBER
+
+DECLARE Action IS ONE OF
+  deliver  HAS  itemName  IS A STRING
+                quantity  IS A NUMBER
+  pay      HAS  amount    ^  ^ ^
+
+GIVEN symtab IS A `Symbol Table`
+`Pay Until Zero` MEANS
+  IF symtab's total AT LEAST symtab's paid
+  THEN FULFILLED
+  ELSE
+    PARTY Buyer
+      MUST pay 50
+    WITHIN 30
+    HENCE `Pay Until Zero` OF
+            `Symbol Table` WITH
+              total IS symtab's total
+              paid  IS symtab's paid PLUS 50
+
+-- Let's evaluate
+
+#CONTRACT `Pay Until Zero` (`Symbol Table` OF 0, 0) AT 1 WITH
+  PARTY Seller DOES deliver "apples" 1 AT 2
+  PARTY Buyer  DOES pay 50 AT 13
+  PARTY Buyer  DOES pay 50 AT 23

@@ -16,7 +16,7 @@ hljs.registerLanguage("l4", function(hljs) {
       'AKA', 'IMPORT'
     ],
     literal: ['TRUE', 'FALSE', 'NOTHING', 'FULFILLED'],
-    built_in: []
+    built_in: ['STRING', 'NUMBER', 'BOOLEAN']
   };
 
   const ANNOTATIONS = {
@@ -86,11 +86,6 @@ hljs.registerLanguage("l4", function(hljs) {
     begin: /(?:>=|<=|>|<|=|GREATER THAN|LESS THAN|EQUALS|NOT|AT LEAST|AT MOST)/
   };
 
-  const SYMBOLS = {
-    className: 'punctuation',
-    begin: /(?:[\(\)\{\}\[\]\.,;])/
-  };
-
   const PROPERTY = {
     className: 'property',
     begin: /(?:'s)/
@@ -124,7 +119,6 @@ hljs.registerLanguage("l4", function(hljs) {
       NUMBER,
       OPERATORS,
       COMPARATORS,
-      SYMBOLS,
       PROPERTY,
       ANNOTATIONS,
       DIRECTIVES

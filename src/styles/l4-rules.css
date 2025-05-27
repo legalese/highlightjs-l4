@@ -1,0 +1,105 @@
+
+/*
+ * L4 rules style
+ * 
+ * Author: Thomas Gorissen <thomas@legalese.com>
+ */
+
+ .hljs {
+  background: #1E1E1E;
+  color: #DCDCDC;
+}
+
+.hljs-keyword,
+.hljs-name {
+  color: #569CD6;
+}
+
+.hljs-link {
+  text-decoration: underline;
+}
+
+.hljs-number,
+.hljs-class {
+  color: #B8D7A3;
+}
+
+.hljs-string,
+.hljs-meta .hljs-string {
+  color: #D69D85;
+}
+
+.hljs-title,
+.hljs-subst,
+.hljs-function,
+.hljs-params,
+.hljs-formula {
+  color: #d2d2d2;
+  font-weight: 700;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #57A64A;
+  font-style: italic;
+}
+
+.hljs-doctag,
+.hljs-symbol,
+.hljs-regexp,
+.hljs-template-tag {
+  color: #ae5151;
+}
+
+.hljs-meta,
+.hljs-meta .hljs-keyword,
+.hljs-tag {
+  color: #9B9B9B;
+}
+
+.hljs-variable,
+.hljs-template-variable {
+  color: #c994ce;
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-literal,
+.hljs-built_in,
+.hljs-type {
+  color: #8dc5e4;
+}
+
+.hljs-section,
+.hljs-title {
+  font-weight: 700;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-bullet,
+.hljs-selector-tag,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: #d4b165;
+}
+
+.hljs-addition {
+  background-color: #144212;
+  display: inline-block;
+  width: 100%;
+}
+
+.hljs-deletion {
+  background-color: #600;
+  display: inline-block;
+  width: 100%;
+}
