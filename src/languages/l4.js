@@ -5,7 +5,7 @@
  * Category: common
  */
 
-hljs.registerLanguage("l4", function(hljs) {
+export default function(hljs) {
   const KEYWORDS = {
     keyword: [
       'GIVEN', 'GIVETH', 'DECIDE', 'MEANS', 'DECLARE', 'IF', 'THEN', 'ELSE', 'OTHERWISE',
@@ -124,4 +124,4 @@ hljs.registerLanguage("l4", function(hljs) {
       DIRECTIVES
     ]
   };
-});
+};
