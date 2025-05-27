@@ -20,15 +20,6 @@ Simply load the module after loading Highlight.js. You'll use the minified versi
 </script>
 ```
 
-### Using directly from the UNPKG CDN
-
-```html
-<script type="text/javascript"
-  src="https://unpkg.com/highlightjs-l4/dist/l4.min.js"></script>
-```
-
-- More info: <https://unpkg.com>
-
 ### With Node or another build system
 
 If you're using Node / Webpack / Rollup / Browserify, etc, simply require the language module, then register it with Highlight.js.
@@ -47,7 +38,7 @@ You need to import both Highlight.js and third-party language highlighter like t
 
 ```js
 import React, {Component} from 'react'
-import 'highlight.js/src/styles/atom-one-dark.css' # or your favourite theme
+import 'l4-rules.css' // or your favourite theme
 import hljsL4 from 'l4.js'
 import hljs from 'highlight.js'
 hljs.registerLanguage('l4', hljsL4);
