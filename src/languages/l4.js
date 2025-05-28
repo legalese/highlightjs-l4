@@ -4,7 +4,6 @@
  * Website: https://l4.legalese.com
  * Category: common
  */
-
 export default function(hljs) {
   const KEYWORDS = {
     keyword: [
@@ -21,7 +20,7 @@ export default function(hljs) {
 
   const ANNOTATIONS = {
     className: 'doctag',
-    begin: /@(?:nlg|ref|ref-src|ref-map)/,
+    begin: /@(?:nlg|ref|ref-src|ref-map)\s/,
     end: /$/,
     contains: [
       {
@@ -61,12 +60,12 @@ export default function(hljs) {
 
   const OPERATORS = {
     className: 'bullet',
-    begin: /(?:\+|-|\*|\/|PLUS|MINUS|DIVIDED BY|MODULO|TIMES)/
+    begin: /(?:\+|-|\*|\/|PLUS|MINUS|DIVIDED BY|MODULO|TIMES)(\s|$)/
   };
 
   const COMPARATORS = {
     className: 'symbol',
-    begin: /(?:>=|<=|>|<|=|GREATER THAN|LESS THAN|EQUALS|NOT|AT LEAST|AT MOST)/
+    begin: /(?:>=|<=|>|<|=|GREATER THAN|LESS THAN|EQUALS|NOT|AT LEAST|AT MOST)(\s|$)/
   };
 
   const PROPERTY = {
@@ -95,7 +94,7 @@ export default function(hljs) {
 
   const TITLE = {
     className: 'title',
-    begin: /§+ /,
+    begin: /§+\s/,
     end: /$/
   };
 
@@ -118,4 +117,4 @@ export default function(hljs) {
       DIRECTIVES
     ]
   };
-};
+}
