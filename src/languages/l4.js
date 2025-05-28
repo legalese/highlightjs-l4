@@ -15,7 +15,7 @@ export default function(hljs) {
       'AT', 'STARTING', 'FOLLOWED', 'BY', 'FOR', 'ALL', 'PROVIDED',
       'AKA', 'IMPORT'
     ],
-    literal: ['TRUE', 'FALSE', 'NOTHING', 'FULFILLED'],
+    literal: ['TRUE', 'FALSE', 'NOTHING', 'FULFILLED', 'TBD'],
     built_in: ['STRING', 'NUMBER', 'BOOLEAN']
   };
 
@@ -24,23 +24,6 @@ export default function(hljs) {
     begin: /@(?:nlg|ref|ref-src|ref-map)/,
     end: /$/,
     contains: [
-      {
-        className: 'string',
-        begin: /\[/,
-        end: /\]/,
-        contains: [
-          {
-            className: 'symbol',
-            begin: /%/,
-            end: /$/
-          }
-        ]
-      },
-      {
-        className: 'string',
-        begin: /<</,
-        end: />>/
-      },
       {
         className: 'link',
         begin: /https?:\/\/[^\s]+/,
@@ -51,7 +34,7 @@ export default function(hljs) {
 
   const DIRECTIVES = {
     className: 'formula',
-    begin: /#(?:SEVAL|EVAL|CHECK|CONTRACT)/,
+    begin: /#(?:SEVAL|EVAL|CHECK|PROVISION|TRACE)/,
     end: /(?=\s|$)/
   };
 
