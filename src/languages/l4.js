@@ -83,6 +83,16 @@ export default function(hljs) {
     ]
   }
 
+  const BLOCK_COMMENTS = {
+    className: 'comment',
+    begin: '{-',
+    end: '-}',
+    contains: [
+      hljs.PHRASAL_WORDS_MODE
+    ]
+  }
+
+
   const TITLE = {
     className: 'title',
     begin: /§+ /,
@@ -95,6 +105,7 @@ export default function(hljs) {
     case_insensitive: false,
     keywords: KEYWORDS,
     contains: [
+      BLOCK_COMMENTS,
       COMMENTS,
       TITLE,
       STRING,
