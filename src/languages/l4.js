@@ -11,7 +11,7 @@ export default function(hljs) {
       'AND', 'OR', 'RAND', 'ROR', 'IS', 'HAS', 'ONE', 'OF', 'WITH', 'A', 'AN', 'THE',
       'YIELD', 'CONSIDER', 'WHERE', 'LIST', 'ASSUME', 'WHEN', 'TYPE', 'PARTY', 'DO', 'DOES',
       'MUST', 'WITHIN', 'HENCE', 'LEST', 'FUNCTION', 'FROM', 'TO', 'IMPLIES',
-      'AT', 'STARTING', 'FOLLOWED', 'BY', 'FOR', 'ALL', 'PROVIDED',
+      'AT', 'STARTING', 'FOLLOWED', 'BY', 'FOR', 'ALL', 'PROVIDED', 'EXACTLY',
       'AKA', 'IMPORT'
     ],
     literal: ['TRUE', 'FALSE', 'NOTHING', 'FULFILLED', 'TBD'],
