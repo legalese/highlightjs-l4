@@ -29,7 +29,7 @@ GIVEN symtab IS A `Symbol Table`
 
 -- Let's evaluate
 
-#CONTRACT `Pay Until Zero` (`Symbol Table` OF 0, 0) AT 1 WITH
+#TRACE `Pay Until Zero` (`Symbol Table` OF 0, 0) AT 1 WITH
   PARTY Seller DOES deliver "apples" 1 AT 2
   PARTY Buyer  DOES pay 50 AT 13
   PARTY Buyer  DOES pay 50 AT 23
