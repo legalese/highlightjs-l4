@@ -7,9 +7,9 @@
 export default function(hljs) {
   const KEYWORDS = {
     keyword: [
-      'GIVEN', 'GIVETH', 'DECIDE', 'MEANS', 'DECLARE', 'IF', 'THEN', 'ELSE', 'OTHERWISE',
+      'GIVEN', 'GIVETH', 'DECIDE', 'MEANS', 'DECLARE', 'IF', 'THEN', 'ELSE', 'OTHERWISE', 
       'AND', 'OR', 'RAND', 'ROR', 'IS', 'IMMEDIATELY', 'IMPLIES', 'HAS', 'ONE', 'OF', 'WITH', 'A', 'AN', 'THE',
-      'YIELD', 'CONSIDER', 'WHERE', 'LIST', 'ASSUME', 'WHEN', 'TYPE', 'PARTY', 'DO', 'DOES',
+      'YIELD', 'CONSIDER', 'WHERE', 'LIST', 'ASSUME', 'WHEN', 'TYPE', 'PARTY', 'DO', 'DOES', 'MAY', 'MUSTNT', 'SHANT', 'SHALL',
       'MUST', 'WITHIN', 'HENCE', 'LEST', 'FUNCTION', 'FROM', 'TO', 'IMPLIES',
       'AT', 'STARTING', 'FOLLOWED', 'BY', 'FOR', 'ALL', 'PROVIDED', 'EXACTLY',
       'AKA', 'IMPORT'
