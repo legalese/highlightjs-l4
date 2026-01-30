@@ -76,7 +76,7 @@ export default function(hljs) {
 
   const COMPARATORS = {
     className: 'symbol',
-    begin: /(?:>=|<=|>|<|=|GREATER|LESS|EQUALS|NOT|AT LEAST|AT MOST|ABOVE|BELOW)(\s|$)/
+    begin: /(?:>=|<=|>|<|=|GREATER|LESS|EQUALS|AT LEAST|AT MOST|ABOVE|BELOW)(\s|$)/
   };
 
   const ELLIPSIS = {
