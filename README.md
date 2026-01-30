@@ -1,6 +1,6 @@
 # L4 - Rules as Code - Legal language syntax highlighting for [Highlight.js](https://highlightjs.org/)
 
-L4 is a functional programming language created by [Legalese](https://l4.legalese.com/) to help write digital-first policies, contracts and legislation.
+L4 is a functional programming language created by [Legalese](https://legalese.com/l4) to help write digital-first policies, contracts and legislation.
 
 
 ## Usage
@@ -83,7 +83,7 @@ Thomas Gorissen <thomas@legalese.com>
 
 - The official site for the Highlight.js library is <https://highlightjs.org/>.
 - The Highlight.js GitHub project: <https://github.com/highlightjs/highlight.js>
-- Learn more about L4: <https://l4.legalese.com>
+- Learn more about L4: <https://legalese.com/l4>
 
 [1]: https://github.com/highlightjs/highlight.js/blob/main/LICENSE
 [2]: https://github.com/legalese/highlightjs-l4/blob/master/LICENSE

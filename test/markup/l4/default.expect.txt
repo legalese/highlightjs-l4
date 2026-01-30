@@ -1,7 +1,11 @@
 <span class="hljs-title">§ `Get them apples, please`</span>
 
 <span class="hljs-comment">-- A variaty of L4 rules syntax just for visual pleasure</span>
-<span class="hljs-doctag">@ref url: <span class="hljs-link">https://l4.legalese.com</span></span>
+<span class="hljs-comment">/* Block comment with C-style syntax */</span>
+<span class="hljs-comment">{- Block comment with Haskell-style syntax -}</span>
+<span class="hljs-doctag">@ref url: <span class="hljs-link">https://legalese.com/l4</span></span>
+<span class="hljs-doctag">@desc This is a description annotation</span>
+<span class="hljs-doctag">@export someFunction</span>
 
 <span class="hljs-keyword">DECLARE</span> Actor <span class="hljs-keyword">IS</span> <span class="hljs-keyword">ONE</span> <span class="hljs-keyword">OF</span> Buyer, Seller
 
@@ -26,6 +30,7 @@
             <span class="hljs-variable">`Symbol Table`</span> <span class="hljs-keyword">WITH</span>
               total <span class="hljs-keyword">IS</span> symtab<span class="hljs-attribute">&#x27;s</span> total
               paid  <span class="hljs-keyword">IS</span> symtab<span class="hljs-attribute">&#x27;s</span> paid <span class="hljs-bullet">PLUS </span><span class="hljs-number">50</span>
+    <span class="hljs-keyword">LEST</span> <span class="hljs-keyword">BREACH</span> <span class="hljs-keyword">BY</span> Buyer <span class="hljs-keyword">BECAUSE</span> <span class="hljs-string">&quot;Late payment&quot;</span>
 
 <span class="hljs-comment">-- Let&#x27;s evaluate</span>
 
@@ -33,3 +38,8 @@
   <span class="hljs-keyword">PARTY</span> Seller <span class="hljs-keyword">DOES</span> deliver <span class="hljs-string">&quot;apples&quot;</span> <span class="hljs-number">1</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">2</span>
   <span class="hljs-keyword">PARTY</span> Buyer  <span class="hljs-keyword">DOES</span> pay <span class="hljs-number">50</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">13</span>
   <span class="hljs-keyword">PARTY</span> Buyer  <span class="hljs-keyword">DOES</span> pay <span class="hljs-number">50</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">23</span>
+
+<span class="hljs-comment">-- New features: ellipsis, operators, and keywords</span>
+<span class="hljs-formula">#EVAL</span> someExpression
+<span class="hljs-formula">#EVALTRACE</span> debugExpression
+<span class="hljs-formula">#ASSERT</span> condition

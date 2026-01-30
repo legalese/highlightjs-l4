@@ -1,7 +1,11 @@
 § `Get them apples, please`
 
 -- A variaty of L4 rules syntax just for visual pleasure
-@ref url: https://l4.legalese.com
+/* Block comment with C-style syntax */
+{- Block comment with Haskell-style syntax -}
+@ref url: https://legalese.com/l4
+@desc This is a description annotation
+@export someFunction
 
 DECLARE Actor IS ONE OF Buyer, Seller
 
@@ -26,6 +30,7 @@ GIVEN symtab IS A `Symbol Table`
             `Symbol Table` WITH
               total IS symtab's total
               paid  IS symtab's paid PLUS 50
+    LEST BREACH BY Buyer BECAUSE "Late payment"
 
 -- Let's evaluate
 
@@ -33,3 +38,8 @@ GIVEN symtab IS A `Symbol Table`
   PARTY Seller DOES deliver "apples" 1 AT 2
   PARTY Buyer  DOES pay 50 AT 13
   PARTY Buyer  DOES pay 50 AT 23
+
+-- New features: ellipsis, operators, and keywords
+#EVAL someExpression
+#EVALTRACE debugExpression
+#ASSERT condition

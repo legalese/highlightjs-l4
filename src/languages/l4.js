@@ -7,12 +7,23 @@
 export default function(hljs) {
   const KEYWORDS = {
     keyword: [
-      'GIVEN', 'GIVETH', 'DECIDE', 'MEANS', 'DECLARE', 'IF', 'THEN', 'ELSE', 'OTHERWISE', 
-      'AND', 'OR', 'RAND', 'ROR', 'IS', 'IMMEDIATELY', 'IMPLIES', 'HAS', 'ONE', 'OF', 'WITH', 'A', 'AN', 'THE',
-      'YIELD', 'CONSIDER', 'WHERE', 'LIST', 'ASSUME', 'WHEN', 'TYPE', 'PARTY', 'DO', 'DOES', 'MAY', 'MUSTNT', 'SHANT', 'SHALL',
-      'MUST', 'WITHIN', 'HENCE', 'LEST', 'FUNCTION', 'FROM', 'TO', 'IMPLIES',
-      'AT', 'STARTING', 'FOLLOWED', 'BY', 'FOR', 'ALL', 'PROVIDED', 'EXACTLY',
-      'AKA', 'IMPORT'
+      'GIVEN', 'GIVETH', 'GIVES', 'DECIDE', 'EXACTLY', 'MEANS', 'DECLARE',
+      'IF', 'BRANCH', 'THEN', 'ELSE', 'OTHERWISE',
+      'AND', 'OR', 'RAND', 'ROR', 'NOT',
+      'IS', 'ONE', 'OF', 'WITH', 'A', 'AN', 'HAS', 'THE',
+      'YIELD', 'CONSIDER', 'WHERE', 'LIST', 'ASSUME', 'WHEN',
+      'TYPE', 'PARTY',
+      'DO', 'DOES', 'MUST', 'MAY', 'SHANT', 'BREACH', 'BECAUSE', 'PROVIDED',
+      'WITHIN', 'HENCE', 'LEST',
+      'FUNCTION', 'FROM', 'TO',
+      'IMPLIES',
+      'BY',
+      'THAN',
+      'AT', 'STARTING', 'FOLLOWED',
+      'FOR', 'ALL',
+      'AKA', 'IMPORT',
+      'FETCH', 'POST', 'ENV', 'CONCAT',
+      'AS', 'LET', 'IN', 'BE', 'MEAN', 'UNLESS'
     ],
     literal: ['TRUE', 'FALSE', 'NOTHING', 'FULFILLED', 'TBD'],
     built_in: ['STRING', 'NUMBER', 'BOOLEAN']
@@ -20,7 +31,7 @@ export default function(hljs) {
 
   const ANNOTATIONS = {
     className: 'doctag',
-    begin: /@(?:nlg|ref|ref-src|ref-map)\s/,
+    begin: /@(?:nlg|ref|ref-src|ref-map|desc|export)\s/,
     end: /$/,
     contains: [
       {
@@ -33,7 +44,7 @@ export default function(hljs) {
 
   const DIRECTIVES = {
     className: 'formula',
-    begin: /#(?:SEVAL|EVAL|CHECK|PROVISION|TRACE)/,
+    begin: /#(?:EVALTRACE|EVAL|CHECK|TRACE|ASSERT)/,
     end: /(?=\s|$)/
   };
 
@@ -60,12 +71,17 @@ export default function(hljs) {
 
   const OPERATORS = {
     className: 'bullet',
-    begin: /(?:\+|-|\*|\/|PLUS|MINUS|DIVIDED BY|MODULO|TIMES)(\s|$)/
+    begin: /(?:\+|-|\*|\/|&&|\|\||=>|==|PLUS|MINUS|TIMES|DIVIDED|MODULO)(\s|$)/
   };
 
   const COMPARATORS = {
     className: 'symbol',
-    begin: /(?:>=|<=|>|<|=|GREATER THAN|LESS THAN|EQUALS|NOT|AT LEAST|AT MOST)(\s|$)/
+    begin: /(?:>=|<=|>|<|=|GREATER|LESS|EQUALS|NOT|AT LEAST|AT MOST|ABOVE|BELOW)(\s|$)/
+  };
+
+  const ELLIPSIS = {
+    className: 'punctuation',
+    begin: /\.{2,3}/
   };
 
   const PROPERTY = {
@@ -84,8 +100,10 @@ export default function(hljs) {
 
   const BLOCK_COMMENTS = {
     className: 'comment',
-    begin: '{-',
-    end: '-}',
+    variants: [
+      { begin: '{-', end: '-}' },
+      { begin: '/\\*', end: '\\*/' }
+    ],
     contains: [
       hljs.PHRASAL_WORDS_MODE
     ]
@@ -112,6 +130,7 @@ export default function(hljs) {
       NUMBER,
       OPERATORS,
       COMPARATORS,
+      ELLIPSIS,
       PROPERTY,
       ANNOTATIONS,
       DIRECTIVES
