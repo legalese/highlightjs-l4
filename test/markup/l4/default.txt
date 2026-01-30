@@ -38,8 +38,3 @@ GIVEN symtab IS A `Symbol Table`
   PARTY Seller DOES deliver "apples" 1 AT 2
   PARTY Buyer  DOES pay 50 AT 13
   PARTY Buyer  DOES pay 50 AT 23
-
--- New features: ellipsis, operators, and keywords
-#EVAL someExpression
-#EVALTRACE debugExpression
-#ASSERT condition

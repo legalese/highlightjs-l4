@@ -38,8 +38,3 @@
   <span class="hljs-keyword">PARTY</span> Seller <span class="hljs-keyword">DOES</span> deliver <span class="hljs-string">&quot;apples&quot;</span> <span class="hljs-number">1</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">2</span>
   <span class="hljs-keyword">PARTY</span> Buyer  <span class="hljs-keyword">DOES</span> pay <span class="hljs-number">50</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">13</span>
   <span class="hljs-keyword">PARTY</span> Buyer  <span class="hljs-keyword">DOES</span> pay <span class="hljs-number">50</span> <span class="hljs-keyword">AT</span> <span class="hljs-number">23</span>
-
-<span class="hljs-comment">-- New features: ellipsis, operators, and keywords</span>
-<span class="hljs-formula">#EVAL</span> someExpression
-<span class="hljs-formula">#EVALTRACE</span> debugExpression
-<span class="hljs-formula">#ASSERT</span> condition
